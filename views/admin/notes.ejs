@@ -1,0 +1,147 @@
+<%-include('navbar.ejs')%>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css">
+<div class="container p-5">
+    <div class="row">
+        <div class="row">
+            <div class="w-100">
+                <h5 class="text-primary mb-3">Today's Notifications :</h5>
+            </div>
+            <%if(noti.length!=0){%>
+                
+            <%for(let i of noti){%>
+                
+            <%if(i.payment_type=='false'){%>
+                <div class="row alert alert-success">  
+                <div class="col-md-1 text-center">
+                   
+                    <a href="#" class="text-primary"><i class="fa fa-eye"></i></a>
+                    <a href="#" class="text-danger"><i class="fa fa-trash"></i></a>
+                </div>
+             <div class="col-3">
+                <h6 style="font-size: 14px;" class="fw-bold">Name</h6>
+              &nbsp;  <font><%-i.name%></font>
+             </div>
+             <div class="col-3">
+                <h6 style="font-size: 14px;" class="fw-bold">Contact</h6>
+              &nbsp;  <font><%-i.mobile%></font>
+             </div>
+             <div class="col-2">
+                <h6 style="font-size: 14px;" class="fw-bold">Amount</h6>
+              &nbsp;  <font>&#8377; <%-i.amount%></font>
+             </div>
+             <div class="col-2">
+                <h6 style="font-size: 14px;" class="fw-bold">Person</h6>
+              &nbsp;  <font>&#8377; <%-i.person%></font>
+             </div>
+             <div class="col-md-1 text-center">
+              
+                <a href="#" class="btn btn-primary btn-sm">Done</a>
+            </div>
+                
+            </div>
+            <%}else{%>
+                <div class="row alert alert-danger">  
+                    <div class="col-md-1 text-center">
+                     
+                        <a href="#" class="text-primary"><i class="fa fa-eye"></i></a>
+                        <a href="#" class="text-danger"><i class="fa fa-trash"></i></a>
+                    </div>
+                 <div class="col-3">
+                    <h6 style="font-size: 14px;" class="fw-bold">Name</h6>
+                  &nbsp;  <font><%-i.name%></font>
+                 </div>
+                 <div class="col-3">
+                    <h6 style="font-size: 14px;" class="fw-bold">Contact</h6>
+                  &nbsp;  <font><%-i.mobile%></font>
+                 </div>
+                 <div class="col-2">
+                    <h6 style="font-size: 14px;" class="fw-bold">Amount</h6>
+                  &nbsp;  <font>&#8377; <%-i.amount%></font>
+                 </div>
+                 <div class="col-2">
+                    <h6 style="font-size: 14px;" class="fw-bold">Person</h6>
+                  &nbsp;  <font>&#8377; <%-i.person%></font>
+                 </div>
+                 <div class="col-md-1 text-center">
+                  
+                    <a href="#" class="btn btn-primary btn-sm">Done</a>
+                </div>
+                    
+                </div>
+            <%}}%>
+            <%}else{%>
+<div class="row text-center alert alert-warning">
+<h4 class="text-center">No Notification for today</h4>
+</div>
+                <%}%>
+        </div>
+<div class="col-md-12 " style="overflow-x: scroll;">
+    <table id="example" class="display  nowrap" style="width:100%">
+        <thead>
+            <tr >
+                <th></th>
+                <th class="">Person Name</th>
+                <th>Person Mobile</th>
+                <th class="">Person</th>
+                <th class="">Payment Type</th>
+                <th class="">Amount</th>
+             
+                <th class=""> </th>
+            </tr>
+        </thead>
+      <tbody>
+   
+        <% for(let i of data){%>
+        
+            <tr>
+                <td><a href="/note-detail/<%-i.id%>" class="text-primary"><i class="fa fa-eye"></i></a></td>
+                <td class=""><%-i.name%></td>
+                <td><%-i.mobile%></td>
+                <td > <%-i.person%></td>
+
+                <td class=""><%-(i.payment_type=='true')?'Give':'Got'%></td>
+                <td class="<%-(i.payment_type=='true')?'text-danger':'text-success'%>"><%-(i.payment_type=='true')?'-':'+'%><%-i.amount%> &#8377;</td>
+                <td><a  onclick="deleteData1('<%-i.id%>')" class="text-danger"><i class="fa fa-trash"></i></a>
+                </td>
+  
+            </tr>
+            
+            <%}%>
+
+            
+
+            
+      </tbody>
+
+    </table>
+</div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.jss"></script>
+
+<script type="text/javascript">
+	new DataTable('#example', {
+    layout: {
+        topStart: {
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        }
+    }
+});
+
+
+ 
+
+
+
+
+</script>
+<%-include('footer.ejs')%>

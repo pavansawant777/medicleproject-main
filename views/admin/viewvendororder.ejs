@@ -1,0 +1,71 @@
+<%-include('navbar.ejs')%>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css">
+<div class="cotainer p-5">
+    <h3 class="mb-2">All purchases from <span class="text-primary"><%-v.name%></span></h3>
+    <div class="row">
+        <table id="example" class="display nowrap table table-striped table-primary" style="width:100%">
+            <thead>
+                <tr>
+                  
+                   <th></th>
+                    <th>Amount</th>
+                    <th>Import Date</th>
+                
+                    <th></th>
+            
+                </tr>
+            </thead>
+            <tbody>
+           
+                <%for(let i of data){%>
+                 <tr>
+              
+                   
+                  <th><a href="/purchase-inv/<%-i.id%>" class="btn btn-primary">View Bill</a></th>
+                    <td><%-i.total%></td>
+                    <td><%-i.idate%></td>
+                
+                    <td><a style="cursor: pointer;" onclick="deleteData('<%-i.id%>','<%-v.id%>')" class="text-danger"><i class="fa fa-trash"></i></a></td>
+ 
+
+                </tr>
+                <%}%>
+             
+            </tbody>
+      
+        </table>
+    </div>
+</div>
+<script>
+    function deleteData(ele,vid){
+     let r=confirm('Delete Data ?')
+     if(r==true){
+         location.href="/delete-purchase-bill/"+ele+"/"+vid
+     }
+    }
+     
+     
+ </script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+ 
+ <script src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+ <script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
+ <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.dataTables.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+ <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
+ <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.jss"></script>
+ 
+ <script type="text/javascript">
+     new DataTable('#example', {
+     layout: {
+         topStart: {
+             buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+         }
+     }
+ });
+ 
+ </script>
+<%-include('footer.ejs')%>

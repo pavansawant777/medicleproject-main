@@ -1,0 +1,72 @@
+<%-include('navbar.ejs')%>
+<div class="container p-5">
+    <div class="row justify-content-center align-item-center">
+        <h3 class="text-center mb-3">Add Note</h3>
+        <div class="col-md-8 rounded-4 shadow p-4">
+            <div class="row">
+
+                <h4 class="text-primary mb-3">Person info :</h4>
+            <div class="col-md-6">
+                <form method="post" action="/save-note" id="myform">
+                <label class="mb-2">Name <span class="text-danger">*</span> :</label>
+                <input class="form-control" type="text" required name="name">
+            </div>
+            <div class="col-md-3">
+                <label class="mb-2">Mobile <span class="text-danger">*</span> :</label>
+                <input class="form-control" type="number" required name="mobile">
+            </div>
+            <div class="col-md-3">
+                <label class="mb-2">Person <span class="text-danger">*</span> :</label>
+               <select required name="person" class="form-control">
+                <option>Customer</option>
+                <option>Supplier</option>
+               </select>
+              
+            </div>
+            <div class="col-md-12 mt-3">
+                <label class="mb-2">Address <span class="text-danger"></span> :</label>
+            
+                <textarea class="form-control" rows="4"  name="add"></textarea>
+            </div>
+            <h4 class="text-primary mt-3 mb-3">Payment information :</h4>
+            <div class="col-md-4">
+                <label class="mb-2">Payment type <span class="text-danger">*</span> :</label>
+               <select required name="payment_type" class="form-control" >
+                <option value="true">Giving</option>
+                <option value="false">Taking</option>
+               </select>
+              
+            </div>
+            <div class="col-md-4">
+                <label class="mb-2">Amount <span class="text-danger">*</span> :</label>
+                <input class="form-control" type="number" required name="amount">
+            </div>
+            <div class="col-md-4">
+                <label class="mb-2"> Set Notification <span class="text-danger">*</span> :</label>
+                <input type="date" class="form-control"  required name="notification">
+            </div>
+            <div class="col-md-12 mt-3 ">
+                <label class="mb-2">Note <span class="text-danger"></span> :</label>
+            
+                <textarea class="form-control" rows="4"  name="note"></textarea>
+            </div>
+            <div class="w-100 text-center mt-5">
+                <button class="btn btn-success text-white w-25" type="button" onclick="submitForm()">Save</button>
+            </div>
+        </form>
+        </div>
+      
+        </div>
+    </div>
+</div>
+<script>
+function submitForm(){
+    let r=confirm('Add note ?');
+    if(r==true){
+        document.getElementById("myform").submit();
+    }
+}
+
+</script>
+
+<%-include('footer.ejs')%>

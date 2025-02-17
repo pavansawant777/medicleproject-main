@@ -1,0 +1,146 @@
+<%-include('navbar.ejs')%>
+<%
+function checkExpiry(c){
+ 
+
+     let e=new Date(c).getTime();
+     let n=new Date().getTime();
+     let es=e/1000;
+     let em=es/60;
+     let eh=em/60;
+     let ed=eh/24;
+     
+     let ns=n/1000;
+     let nm=ns/60;
+     let nh=nm/60;
+     let nd=nh/24;
+     
+        if(Math.floor(ed-nd)<=30){
+return true;
+}
+      
+    return false;
+
+}
+
+%>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css">
+<style>
+    input{
+      box-shadow: 0px 0px 1px 0px black;
+      background-color: white;
+    }
+    #blinking-button{
+    padding: 5px;
+    border-radius:50%; 
+
+}
+#exp-btn{
+    padding: 5px;
+    border-radius:50%; 
+    background-color: #fe1313;
+}
+#mybtn{
+    padding: 5px;
+    border-radius:50%; 
+    background-color: #06e828;
+}
+@keyframes blink {
+  0%, 100% {background-color:#dde806;}
+  50% {background-color: #f8730e;}
+}
+#blinking-button {
+  background-color: #8EDDBE;
+  color: white;
+  animation: blink 1s linear infinite;
+}
+   
+</style>
+<div class="container p-5">
+    <div class="row border p-4 rounded" style="overflow-x: scroll;">
+       
+
+        <table id="example" class="display nowrap table table-striped table-primary" style="width:100%">
+            <thead>
+                <tr>
+                  <th></th>
+                    <th>Name</th>
+                    <th>Vendor</th>
+                    <th>Batch Id</th>
+                    <th>Packing</th>
+                    <th>Quantity</th>
+                    <th>MRP</th>
+                    <th>Rate </th>
+                    <th>Amount</th>
+                    <th>Import Date</th>
+                   
+                    <th></th>
+            
+                </tr>
+            </thead>
+            <tbody>
+                <%   for(let i of p ){%>
+                 <tr>
+              <td><a href="/purchase-inv/<%-i.p_billid%>" class="btn btn-primary">view bill</a></td>
+                    <td><%-i.pname%></td>
+                    <td>
+                    <a class="text-primary" href="/show-party/<%-i.party%>"  ><%-i.party_name%><sup><i class="fa fa-circle-info"></i></sup></a>
+                    
+                    </td>
+                    <td><%-i.batchId%></td>
+                    <td><%-i.packing%></td>
+                    <td><%-i.qty%></td>
+                    <td><%-i.mrp%></td>
+                    <td><%-i.rate%></td>
+                    <td><%-i.amt%></td>
+                    <td><%-i.adddate%></td>
+                   
+                    <td><a style="cursor: pointer;" onclick="deleteData('<%-i.id%>')" class="text-danger"><i class="fa fa-trash"></i></a></td>
+ 
+
+                </tr>
+                <%}%>
+             
+            </tbody>
+      
+        </table>
+    </div>
+</div>
+
+<script>
+   function deleteData(ele){
+    let r=confirm('Delete Data ?')
+    if(r==true){
+        location.href="/delete-product/"+ele
+    }
+   }
+    
+    
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.jss"></script>
+
+<script type="text/javascript">
+	new DataTable('#example', {
+    layout: {
+        topStart: {
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        }
+    }
+});
+
+</script>
+<script type="text/javascript">
+	
+
+</script>
+<%-include('footer.ejs')%>

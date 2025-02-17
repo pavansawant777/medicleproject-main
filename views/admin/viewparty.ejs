@@ -1,0 +1,85 @@
+<%-include('navbar.ejs')%>
+
+<div class="container p-5">
+    <h3 class="text-center mb-3">Edit Party Details</h3>
+    <div class="row shadow py-5 px-3 justify-content-center align-item-center">
+        <h5 class="mb-1">Total Orders : <span class="text-primary"><%-data.ttl_purchases%></span></h5>
+        <a href="/view-vendor-order/<%-data.id%>" style="font-size: 14px;" class="text-primary mb-4">Show purchases <i class="fa fa-circle-info"></i></a>
+            <form action="/update-party/<%-data.id%>" method="post" id="myform">
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <label class="mb-2">Vendor Name <span class="text-danger">*</span>:</label>
+                        <input type="text" name="name" class="form-control mb-3 border-1" value="<%-data.name%>" required>
+
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="mb-2">Vendor Email <span class="text-danger">*</span>:</label>
+                        <input type="email" name="email" class="form-control mb-3" value="<%-data.email%>" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="mb-2">Vendor Contact <span class="text-danger">*</span>:</label>
+                        <input type="number" name="contact" class="form-control mb-3" value="<%-data.contact%>" required>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <label class="mb-2">Contract Start :<span class="text-danger"></span></label>
+                        <input type="text" readonly class="form-control mb-3" value="<%-data.contract_start%>" >
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <%if(data.contract_status=='active'){%>
+                            <label class="mb-2">Contract Status <span class="text-danger"></span>:</label>
+                            <select  name="contract_status" class="form-control mb-3"  >
+                            <option selected>active</option>
+                            <option>expire</option>
+        
+                            </select>
+                        <%}else{%>
+             
+                        <label class="mb-2">Contract End :<span class="text-danger"></span></label>
+                        <input type="text" readonly class="form-control mb-3" value="<%-data.contract_end%>" >
+                        <%}%>
+                    </div>
+                    
+                    <div class="col-md-12 mt-3">
+                        <label class="mb-2">Vendor Address<span class="text-danger"></span>:</label>
+                        <textarea type="url" name="website" class="form-control mb-3"  ><%-data.website%></textarea>
+                    </div>
+       
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <div class="w-100 text-center">
+                <button class="btn btn-primary w-25" type="button" onclick="sendData()">Save</button>
+                </div>
+            </div>
+
+            </form>
+        
+    </div>
+</div>
+<script>
+    function sendData(){
+        let r=confirm("Update data") 
+        if(r==true){
+            document.getElementById('myform').submit();
+        }
+    }
+</script>
+
+<%-include('footer.ejs')%>

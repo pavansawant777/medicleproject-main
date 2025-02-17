@@ -1,0 +1,33 @@
+<%-include("navbar.ejs")%>
+
+    <div class="container">
+        <div class="container">
+            <h1 class="text-center my-3">Medical Details</h1>
+
+            <form action="/save_details" method="post">
+                <input type="hidden" name="m_id" value=" <%-data.m_id%>">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label my-1">Medical Email</label>
+                        <input type="email" name="m_email" class="form-control" value="<%-data.m_email%>">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label my-1">Medical Mobile</label>
+                        <input type="number" name="m_mobile" class="form-control" value="<%-data.m_mobile%>">
+                    </div>
+
+                    <div class="col-md-12">
+                        <label class="form-label my-1">Medical Address</label>
+                        <textarea name="m_address" class="form-control"><%-data.m_address%></textarea>
+                    </div>
+
+                </div>
+                <button class="btn btn-success my-3">Save Details</button>
+
+            </form>
+        </div>
+    </div>
+
+
+    <%-include("footer.ejs")%>

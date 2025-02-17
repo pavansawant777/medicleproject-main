@@ -1,0 +1,100 @@
+<%-include('navbar.ejs')%>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css">
+<style>
+    input{
+        box-shadow: 0px 0px 1px 0px rgb(97, 97, 97);
+    }
+</style>
+<div class="container p-5">
+    <div class="row">
+        <h4 class="text-center">Total Sells of this month</h4>
+        <div class="col-md-3 mb-3 mt-3 alert alert-primary">
+            <div class="row">
+
+<div class="col-12 p-0 text-center">
+    <h2 class="text-primary ">&#8377; <%-curExp%></h2>
+    <%if(lastexp!=0){%>
+    <%if((curExp-lastexp)<0){%>
+        <p class="text-danger mt-3" style="font-size: 13px;">
+            <i class="fa fa-arrow-trend-down"></i>
+            <%-(((curExp-lastexp)/lastexp)*100).toString().split(".")[0]%> % less sells in this month.
+            </p>
+        <%}else{%>
+<p class="text-success mt-3" style="font-size: 13px;">
+<i class="fa fa-arrow-trend-up"></i>
++<%-(((curExp-lastexp)/lastexp)*100).toString().split(".")[0]%> % more sells in this month.
+</p>
+        <%}}%>
+ 
+</div>
+            </div>
+           
+            
+        </div>
+        <table id="example" class="display  nowrap" style="width:100%">
+            <thead>
+                <tr >
+                    <th></th>
+                    <th class="">Bill Id</th>
+                    <th class="">Customer Name</th>
+                    <th class="">Total</th>
+                    <th class="">Date</th>
+                 
+                    <th class=""> </th>
+                </tr>
+            </thead>
+          <tbody>
+            <% for(let i of bill){%>
+                <tr>
+                    <td><a href="/invoice/<%-i.id%>" class="text-primary"><i class="fa fa-eye"></i></a></td>
+                    <td class=""><%-'INV-000'+i.id%></td>
+                    <td><%-i.cname%></td>
+                    <td>&#8377; <%-i.exp%></td>
+                    <td class=""><%-i.pdate%></td>
+                    
+                    <td><a  onclick="deleteData1('<%-i.id%>')" class="text-danger"><i class="fa fa-trash"></i></a>
+                    </td>
+      
+                </tr>
+                
+                <%}%>
+          </tbody>
+            <tfoot>
+          
+            </tfoot>
+        </table>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    function deleteData1(id){
+        let r = confirm('Want to delete Data ?');
+if(r==true){
+        location.href='/delete-bill/'+id
+    }
+
+}
+
+</script>
+<script src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.jss"></script>
+
+<script type="text/javascript">
+	new DataTable('#example', {
+    layout: {
+        topStart: {
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        }
+    }
+});
+</script>
+
+
+<%-include('footer.ejs')%>

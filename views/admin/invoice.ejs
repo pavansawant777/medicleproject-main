@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <script src="https://kit.fontawesome.com/00aea3e468.js" crossorigin="anonymous"></script>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fb;
+            color: #333;
+        }
+
+        .invoice-container {
+            width: 80%;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Header Section */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #f1f1f1;
+            padding-bottom: 20px;
+        }
+
+        .header .logo h1 {
+            font-size: 36px;
+            color: #3498db;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .header .contact-info {
+            text-align: right;
+        }
+
+        .header .contact-info p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        /* Invoice Info Section */
+        .info-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .info-section div {
+            font-size: 14px;
+        }
+
+        .info-section .customer-info,
+        .info-section .invoice-info {
+            width: 48%;
+        }
+
+        .info-section div strong {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        /* Table Section */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        table th {
+            background-color: #549341;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        table td {
+            color: #555;
+        }
+
+        /* Total Section */
+        .total-section {
+            display: flex;
+            justify-content: flex-end;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .total-section div {
+            margin-left: 50px;
+        }
+
+        .net-total {
+            font-size: 18px;
+            color: #27ae60;
+        }
+
+        /* Payment Info Section */
+        .payment-section {
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .payment-section strong {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        /* Footer Section */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .footer .mtn1{
+            padding: 12px 20px;
+            background-color: #549341;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .mtn{
+            background-color: #549341;
+            color: #fff;
+            padding: 5px 10px 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+
+
+        .footer button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .invoice-container {
+                width: 90%;
+            }
+
+            .info-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .info-section .customer-info,
+            .info-section .invoice-info {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            table th, table td {
+                font-size: 14px;
+            }
+
+            .total-section {
+                flex-direction: column;
+                align-items: flex-end;
+            }
+        }
+
+        @media print {
+            .mtn ,.mtn1{
+                display: none;
+            }            
+        }
+    </style>
+</head>
+<body>
+
+<div class="invoice-container">
+
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+           <img src="/img/medical 4.png" style="height: 100px;width: 190px;">
+        </div>
+        <div class="contact-info">
+            <p>Email: <%-details.m_email%></p>
+            <p>Phone: <%-details.m_mobile%></p>
+            <p>Address: <%-details.m_address%></p>
+        </div>
+    </div>
+
+    <!-- Invoice Information Section -->
+    <div class="info-section">
+        <div class="customer-info">
+            <div><strong>Customer Name:</strong> <%-cus.cname%></div>
+            <div><strong>Email:</strong> <%-cus.cemail%></div>
+            <div><strong>Phone:</strong> <%-cus.ccontact%></div>
+        </div>
+        <div class="invoice-info">
+            <div><strong>Invoice Number:</strong> INV-000<%-bill.id%></div>
+            <div><strong>Date:</strong> <%-bill.pdate%></div>
+        </div>
+    </div>
+
+    <!-- Invoice Table with Packaging Column -->
+    <table>
+        <thead>
+            <tr>
+                <th>Medicine Name</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+             
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+          
+         <%for(let i of med){%>
+            
+            <tr>
+                <td><%-i.pname%></td>
+                <td>&#8377; <%-i.up%></td>
+                <td><%-i.qty%></td>
+               
+                <td>&#8377; <%-i.total%></td>
+         </tr>
+            
+            <%}%>
+        </tbody>
+    </table>
+
+    <!-- Total Section -->
+    <div class="total-section">
+        <div><strong>Subtotal:</strong>&#8377; <%-det.ttl%></div>
+        <div><strong>Discount :</strong> <%-det.disc%> % </div>
+     
+        <div class="net-total"><strong>Net Total:</strong>&#8377;  <%-det.net_ttl%></div>
+    </div>
+
+    <!-- Payment Details -->
+    <div class="payment-section">
+        <div><strong>Payment Method:</strong> <%-det.pmtd%> </div>
+        <div><strong>Payment Status:</strong> <%-det.psts%></div>
+     
+           
+        <div><strong>Amount Paid:</strong>&#8377; <%-det.pmny%></div>
+        <div><strong>Return Amount:</strong>&#8377; <%-det.rmny%></div>
+   
+    </div>
+
+    <!-- Footer with Print Button -->
+    <div class="footer">
+        <button class=" btn btn-primary p-5 mtn1" onclick="window.print()">Print Invoice</button> <br>
+        <a href="/sale-product">
+            <button class="btn btn-sm mtn"><i class="fa-solid fa-chevron-left"></i></button>
+        </a>
+    </div>
+
+</div>
+<script>
+   function pr(){
+    document.write(`<div class="invoice-container">
+   <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fb;
+            color: #333
+        }
+
+        .invoice-container {
+            width: 80%;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Header Section */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #f1f1f1;
+            padding-bottom: 20px;
+        }
+
+        .header .logo h1 {
+            font-size: 36px;
+            color: #3498db;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .header .contact-info {
+            text-align: right;
+        }
+
+        .header .contact-info p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        /* Invoice Info Section */
+        .info-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .info-section div {
+            font-size: 14px;
+        }
+
+        .info-section .customer-info,
+        .info-section .invoice-info {
+            width: 48%;
+        }
+
+        .info-section div strong {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        /* Table Section */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        table th {
+            background-color: #3498db;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        table td {
+            color: #555;
+        }
+
+        /* Total Section */
+        .total-section {
+            display: flex;
+            justify-content: flex-end;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .total-section div {
+            margin-left: 50px;
+        }
+
+        .net-total {
+            font-size: 18px;
+            color: #27ae60;
+        }
+
+        /* Payment Info Section */
+        .payment-section {
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .payment-section strong {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        /* Footer Section */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .footer button {
+            padding: 12px 20px;
+            background-color: #3498db;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+
+        }
+
+        .footer button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .invoice-container {
+                width: 90%;
+            }
+
+            .info-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .info-section .customer-info,
+            .info-section .invoice-info {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            table th, table td {
+                font-size: 14px;
+            }
+
+            .total-section {
+                flex-direction: column;
+                align-items: flex-end;
+            }
+        }
+
+        @media print {
+ 
+  .mtn{
+    visibility: hidden;
+  }
+  .mtn1{
+    visibility: hidden;
+  }
+}
+    </style>
+
+</head>
+<body>
+    
+
+<div class="invoice-container" id="printableArea">
+
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+           <img src="../img/medical 4.png" style="height: 100px;width: 190px;">
+        </div>
+        <div class="contact-info">
+            <p>Email: contact@xyzpharmacy.com</p>
+            <p>Phone: (123) 456-7890</p>
+            <p>Address: 123 Pharmacy St., City, Country</p>
+        </div>
+    </div>
+
+    <!-- Invoice Information Section -->
+    <div class="info-section">
+        <div class="customer-info">
+            <div><strong>Customer Name:</strong> <%-cus.cname%></div>
+            <div><strong>Email:</strong> <%-cus.cemail%></div>
+            <div><strong>Phone:</strong> <%-cus.ccontact%></div>
+        </div>
+        <div class="invoice-info">
+            <div><strong>Invoice Number:</strong> INV-000<%-bill.id%></div>
+            <div><strong>Date:</strong> <%-bill.pdate%></div>
+        </div>
+    </div>
+
+    <!-- Invoice Table with Packaging Column -->
+    <table>
+        <thead>
+            <tr>
+                <th>Medicine Name</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+             
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+          
+         <%for(let i of med){%>
+            
+            <tr>
+                <td><%-i.pname%></td>
+                <td>&#8377; <%-i.up%></td>
+                <td><%-i.qty%></td>
+               
+                <td>&#8377; <%-i.total%></td>
+         </tr>
+            
+            <%}%>
+        </tbody>
+    </table>
+
+    <!-- Total Section -->
+    <div class="total-section">
+        <div><strong>Subtotal:</strong>&#8377; <%-det.ttl%></div>
+        <div><strong>Discount :</strong> <%-det.disc%> % </div>
+        <div class="net-total"><strong>Net Total:</strong>&#8377;  <%-det.net_ttl%></div>
+    </div>
+
+    <!-- Payment Details -->
+    <div class="payment-section">
+        <div><strong>Payment Method:</strong> <%-det.pmtd%> </div>
+        <div><strong>Payment Status:</strong> <%-det.psts%></div>
+     
+           
+        <div><strong>Amount Paid:</strong>&#8377; <%-det.pmny%></div>
+        <div><strong>Return Amount:</strong>&#8377; <%-det.rmny%></div>
+   
+    </div>
+
+    <!-- Footer with Print Button -->
+    <div class="footer">
+
+        <button  class=" mtn1" onclick="window.print()">Print Invoice</button><br>
+        
+        <a href="/sale-product">
+            <button class="btn btn-sm btn-success text-white fs-5 mtn"><i class="fa-solid fa-house"></i></button>
+        </a>
+
+
+        <button onclick="pr()">Print Invoice</button>
+
+    </div>
+
+</div>`);
+print();
+   }
+
+   
+</script>
+</body>
+</html>
+

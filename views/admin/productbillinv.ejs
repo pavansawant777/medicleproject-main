@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <script src="https://kit.fontawesome.com/00aea3e468.js" crossorigin="anonymous"></script>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fb;
+            color: #333;
+        }
+
+        .invoice-container {
+            width: 80%;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Header Section */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #f1f1f1;
+            padding-bottom: 20px;
+        }
+
+        .header .logo h1 {
+            font-size: 36px;
+            color: #3498db;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .header .contact-info {
+            text-align: right;
+        }
+
+        .header .contact-info p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        /* Invoice Info Section */
+        .info-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .info-section div {
+            font-size: 14px;
+        }
+
+        .info-section .customer-info,
+        .info-section .invoice-info {
+            width: 48%;
+        }
+
+        .info-section div strong {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        /* Table Section */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        table th {
+            background-color: #549341;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        table td {
+            color: #555;
+        }
+
+        /* Total Section */
+        .total-section {
+            display: flex;
+            justify-content: flex-end;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .total-section div {
+            margin-left: 50px;
+        }
+
+        .net-total {
+            font-size: 18px;
+            color: #27ae60;
+        }
+
+        /* Payment Info Section */
+        .payment-section {
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .payment-section strong {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        /* Footer Section */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .footer .mtn1{
+            padding: 12px 20px;
+            background-color: #549341;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .mtn{
+            background-color: #549341;
+            color: #fff;
+            padding: 5px 10px 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+
+
+        .footer button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .invoice-container {
+                width: 90%;
+            }
+
+            .info-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .info-section .customer-info,
+            .info-section .invoice-info {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            table th, table td {
+                font-size: 14px;
+            }
+
+            .total-section {
+                flex-direction: column;
+                align-items: flex-end;
+            }
+        }
+
+        @media print {
+            .mtn ,.mtn1{
+                display: none;
+            }            
+        }
+    </style>
+</head>
+<body>
+
+<div class="invoice-container">
+
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+           <img src="/img/medical 4.png" style="height: 100px;width: 190px;">
+        </div>
+        <div class="contact-info">
+            <p>Email: <%-data.m_email%></p>
+            <p>Phone: <%-data.m_mobile%></p>
+            <p>Address: <%-data.m_address%></p>
+        </div>
+    </div>
+
+    <!-- Invoice Information Section -->
+    <div class="info-section">
+        <div class="customer-info">
+            <div><strong>Vendor Name:</strong> <%-b_data.vname%></div>
+         
+        </div>
+        <div class="invoice-info">
+          
+            <div><strong>Date:</strong> <%-b_data.idate%></div>
+        </div>
+    </div>
+
+    <!-- Invoice Table with Packaging Column -->
+    <table>
+        <thead>
+            <tr>
+                <th>Medicine Name</th>
+                <th>Packing</th>
+                <th>Quantity</th>
+                <th>Rate</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+          
+         <%for(let i of prod){%>
+            
+            <tr>
+                <td><%-i.pname%></td>
+                <td> <%-i.packing%></td>
+                
+                <td><%-i.qty%></td>
+                <td><%-i.rate%></td>
+                <td>&#8377; <%-i.amt%></td>
+         </tr>
+            
+            <%}%>
+        </tbody>
+    </table>
+
+    <!-- Total Section -->
+    <div class="total-section">
+        <div class=""><strong>Discount :</strong>&#8377; <%-b_data.discount%> %</div>
+        <div class=""><strong>GST :</strong>&#8377; <%-b_data.gst%> %</div>
+        <div class="net-total"><strong>Net Total:</strong>&#8377;  <%-b_data.net_ttl%></div>
+    </div>
+
+   
+
+    <!-- Footer with Print Button -->
+    <div class="footer">
+        <button class=" btn btn-primary p-5 mtn1" onclick="window.print()">Print Invoice</button> <br>
+   
+            <button class="btn btn-sm mtn" onclick="goback()"><i class="fa-solid fa-chevron-left"></i></button>
+    
+    </div>
+
+</div>
+<script>
+    function goback(){
+        history.back();
+    }
+</script>
+</body>
+</html>
+

@@ -1,0 +1,86 @@
+<%- include("navbar.ejs") %>
+<div class="container">
+
+    
+        
+    <button class="btn btn-success float-end me-3" data-bs-toggle="modal" data-bs-target="#add_customer">Add new Customer +</button>
+    
+
+    <h3 class="my-3">Total Credits : &#8377; <span class="text-primary"><%-c_ttl.c_ttl%></span></h3>
+    <h3 class="my-3">Total Debits : &#8377; <span class="text-danger"><%-d_ttl.d_ttl%></span> </h3>
+    <h3 class="my-3">Net Total : &#8377; <span class="text-success"><%-c_ttl.c_ttl-d_ttl.d_ttl%></span> </h3>
+
+    <h1 class="text-center my-3">Customer Details</h1>
+    <table class="table table-bordered table-hover my-5">
+        <tr>
+            <th>Sr</th>
+            <th>Customer Name</th>
+            <th>Customer Mobile</th>
+            <th>Customer Address</th>
+            <th>Action</th>
+        </tr>
+
+        <% customer.map((row,i)=>{%>
+
+            <tr>
+                <td><%-i+1%></td>
+                <td><%-row.c_name%></td>
+                <td><%-row.c_mobile%></td>
+                <td><%-row.c_add%></td>
+                <td>
+                    <a href="/edit_credit/<%-row.credit_id%>">
+                        <button class="btn btn-success">Edit</button>
+                    </a>
+
+                    <a href="/credit_history/<%-row.credit_id%>">
+                        <button class="btn btn-success">History</button>
+                    </a>
+                </td>
+            </tr>
+        <%})%>
+    </table>
+   
+
+    
+    
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="add_customer" tabindex="-1" aria-labelledby="add_customerLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add new customer</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="post" action="/save_credit" >
+                <label class="mb-2">Customer Name <span class="text-danger">*</span> :</label>
+                <input type="text" required name="c_name" class="form-control border shadow-none mb-3">
+
+                <label class="mb-2">Customer Contact Number <span class="text-danger">*</span> :</label>
+                <input type="number" required name="c_mobile" class="form-control shadow-none border mb-3">
+              
+             
+                <label class="mb-2">Customer Address <span class="text-danger"></span> :</label>
+                <textarea  name="c_add" class="form-control shadow-none mb-3"></textarea>            
+                <button class="btn btn-primary shadow-none float-end mt-4">Save</button>
+            </form>
+
+
+
+        </div>
+        
+      </div>
+    </div>
+</div>
+
+
+<%- include("footer.ejs") %>
+
+
+

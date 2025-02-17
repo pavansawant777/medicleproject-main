@@ -1,0 +1,421 @@
+<%-include('navbar.ejs')%>
+    <style>
+        .modal-box {
+            position: absolute;
+            left: 35%;
+            top: 5%;
+            width: 350px;
+            z-index: 9999999999;
+            height: 150px;
+        }
+        
+        #e-warn {
+            display: none;
+        }
+        
+        #show-date-warn {
+            display: none;
+        }
+    </style>
+
+    <div class="container p-4">
+        <div class="w-100 text-center mb-3">
+            <h2>Add Medicines</h2>
+        </div>
+        <button type="button" id="alert" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        height: 150px;
+    }
+    #e-warn{
+        display: none;
+    }
+ #show-date-warn{
+    display: none;
+ }
+ 
+</style>
+
+
+<div class="container p-4">
+  <div class="w-100 text-center mb-3">
+    <h2>Add Medicines</h2>
+  </div>
+<button type="button" id="alert"  class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Launch static backdrop modal
+  </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-body">
+                        <div class="alert alert-success">
+                            Medicine is added successfully
+                            <i class="fa-regular fa-circle-check  float-end"></i>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="reload()">Okay</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row p-3 " style="overflow-x: scroll;">
+            <table class="table table-striped table-primary  table-bordered">
+                <tr>
+                    <th>
+                        Medicine Name
+                    </th>
+
+                    <th>
+                        Packing
+                    </th>
+                    <th>
+                        Batch ID
+                    </th>
+                    <th>
+                        Ex. Date (mm/yy)
+                    </th>
+
+                    <th>
+                        Qantity
+                    </th>
+                    <th>
+                        MRP
+                    </th>
+                    <th>
+                        Rate
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                    <th>
+                        <button class="btn btn-primary" onclick="addRow()">+</button>
+                    </th>
+                </tr>
+
+
+
+
+                <tbody id="myform">
+
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <select id="vn" onchange="selectVendor()" class="form-control">
+            <option selected value="" disabled>Select the party</option>
+
+<%for(let i of v){
+    
+    %>
+    <option value="<%-i.id%>" class="shadow-none"><%-i.name%></option>
+    <%}%>
+        </select>
+
+                            <span class="text-danger" id="e-warn" style="font-size: 13px;"><i class="fa fa-warning"></i>&nbsp;Please select the party </span>
+                        </td>
+                        <td colspan="2">
+                            <input type="number" id="vnum" class="w-100" placeholder="Contact" readonly>
+                        </td>
+                        <td colspan="2">
+                            <input type="email" id="vem" class="w-100" placeholder="Email" readonly>
+                        </td>
+                        <td colspan="2"> <button class="btn w-100  btn-primary float-end" onclick="sendData()" disabled id="savebtn">Save</button>
+                        </td>
+                    </tr>
+
+    
+   
+</tfoot>
+<tfoot>
+   
+
+                    <span class="text-danger" id="e-warn" style="font-size: 13px;"><i class="fa fa-warning"></i>&nbsp;Please select the party </span>
+                    </td>
+
+                    </tr>
+
+                </tfoot>
+                <!-- <tfoot>
+                    <td colspan="1">
+                        <label class="">Select Date :</label>
+                        <input type="date" id="date" name="idate" class="form-control shadow-none" />
+
+
+                        <span style="font-size: 13px;" class="text-danger" id="show-date-warn"><i class="fa fa-warning"></i> Please select date</span>
+                    </td>
+                    <td colspan="2">
+                        Total :
+                        <input type="number" class="form-control" id="net_ttl" readonly />
+                    </td>
+>>>>>>> f5c7540a9e5139fc614458ac24d697f31e7ae35c
+
+                </tfoot> -->
+                <tfoot>
+                    <td colspan="1">
+                        <label class="">Select Date :</label>
+                        <!-- <input type="date" id="date" name="idate"  class="form-control shadow-none"/> -->
+                        <input type="date" id="date" class="form-control">
+                        <span style="font-size: 13px;" class="text-danger" id="show-date-warn"><i class="fa fa-warning "></i> Please select date</span>
+                    </td>
+                    <td colspan="2">
+                        Total :
+                        <input type="number" class="form-control" id="net_ttl" readonly />
+                    </td>
+
+                    <td colspan="2">
+
+                        Discount (%) :
+                        <input type="number" class="form-control shadow-none" onkeyup="setNetTtl()" id="purdis" />
+
+                    </td>
+
+
+
+                    <td colspan="2"> GST (%):
+                        <input type="number" onkeyup="setNetTtl()" class="form-control" id="gst" /></td>
+                    <td colspan="3">
+                        Net Total :
+                        <input class="form-control" id="tot" readonly/>
+                    </td>
+                </tfoot>
+                <tfoot>
+                    <td colspan="10">
+                        <b><i class="fa fa-user"></i>&nbsp; Party Details</b>
+
+                    </td>
+
+                </tfoot>
+
+
+            </table>
+        </div>
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        let vid = "";
+
+        function selectVendor() {
+
+            let ar = <%- JSON.stringify(v) %>;
+
+            for (let i of ar) {
+                if (i.id == document.getElementById('vn').value) {
+                    $("#vnum").val(i.contact);
+                    $("#vem").val(i.email);
+                    vid = i.id;
+                }
+            }
+
+        }
+    </script>
+
+    <script>
+        let i = 0;
+
+        function setNetTtl() {
+
+            var total = Number(document.getElementById('net_ttl').value);
+            var disamount = Number(document.getElementById('purdis').value);
+            var totdis = (total * disamount) / 100;
+            var gstamount = Number(document.getElementById('gst').value)
+                // var gst = totdis * (gstamount/100)
+
+            var ttl = total - totdis;
+
+
+            var gst = (ttl * gstamount) / 100;
+
+            document.getElementById('tot').value = (ttl + gst).toFixed(2);
+
+
+            //const priceAfterDiscount = originalPrice - discountAmount;
+
+            // Calculate GST Amount and Final Price
+            // const gstAmount = (priceAfterDiscount * gstPercentage) / 100;
+            // const finalPrice = priceAfterDiscount + gstAmount;
+
+
+
+
+
+            //    document.getEllement =Number(document.getElementById("net_ttl").value)+Number((document.getElementById("net_ttl").value/100)*document.getElementById("gst").value)
+            //  
+
+        }
+
+        function addRow() {
+            ++i;
+            $("#myform").append(` <tr>
+      
+
+       
+<td><input type="text" name="pname" class="form-control shadow-none" placeholder="Medicine Name"></td>
+<td><select  name="ppacking" class="form-control shadow-none"  >
+      <option selected value="" disabled >Select packing</option>
+    <option>1 Tab</option>
+    <option>2 Tab</option>
+    <option>3 Tab</option>
+    <option>4 Tab</option>
+    <option>5 Tab</option>
+    <option>6 Tab</option>
+    <option>7 Tab</option>
+    <option>8 Tab</option>
+    <option>9 Tab</option>
+    <option>10 Tab</option>
+    <option>11 Tab</option>
+    <option>12 Tab</option>
+    <option>13 Tab</option>
+    <option>14 Tab</option>
+    <option>15 Tab</option>
+    <option>16 Tab</option>
+    <option>17 Tab</option>
+    <option>18 Tab</option>
+    <option>19 Tab</option> 
+    <option>20 Tab</option>
+    <option>250 ml</option>
+    <option>500 ml</option>
+    <option>750 ml</option>
+    </select>
+    </td>    
+<td><input type="text" name="pbatchid" class="form-control shadow-none"  placeholder="Batch Id"></td> 
+<td>   <input type="month" name="pexp" class="form-control shadow-none" ></td> 
+
+<td>   <input type="number" name="pqty" placeholder="Quantity" id="qty-${i}" onkeyup="total(this)" class="form-control shadow-none" ></td> 
+<td>          <input type="number" placeholder="MRP" name="pmrp" id="mrp-${i}"  class="form-control shadow-none" onkeyup="total(this)" ></td> 
+<td>          <input type="number" placeholder="Rate" name="prate" id="rate-${i}" onkeyup="total(this)" class="form-control shadow-none" ></td> 
+<td>          <input type="number" placeholder="Amount" name="pamt" id="tot-${i}"  class="form-control shadow-none" readonly ></td> 
+<td><button class="btn btn-danger" onClick="delRow()"><i class="fa fa-trash"></i></button></td>
+</tr>`);
+            checkSave();
+        }
+
+        function delRow() {
+            --i;
+            let r = event.target.closest('tr');
+            r.remove();
+            checkSave();
+        }
+
+        function checkSave() {
+
+            if (i > 0) {
+
+                document.getElementById('savebtn').disabled = false;
+            } else {
+                document.getElementById('savebtn').disabled = true;
+            }
+        }
+
+        function sendData() {
+
+            let obj = {
+                "pname": [],
+                "packing": [],
+                "bid": [],
+                "exp": [],
+                "qty": [],
+                "mrp": [],
+                "rate": [],
+                "amt": [],
+                "disc": document.getElementById("purdis").value,
+                "date": document.getElementById("date").value,
+                "vid": vid,
+                "gst": document.getElementById('gst').value,
+                "ttl": document.getElementById("net_ttl").value,
+                "net_ttl": document.getElementById("tot").value
+            }
+            let pname = document.getElementsByName("pname");
+            let ppacking = document.getElementsByName("ppacking");
+            let pbatchid = document.getElementsByName("pbatchid");
+            let pexp = document.getElementsByName("pexp");
+            let pqty = document.getElementsByName("pqty");
+            let pmrp = document.getElementsByName("pmrp");
+            let prate = document.getElementsByName("prate");
+            let pamt = document.getElementsByName("pamt");
+
+
+            for (let n of pname) {
+                obj.pname.push(n.value);
+            }
+            for (let n of ppacking) {
+                obj.packing.push(n.value);
+            }
+            for (let n of pbatchid) {
+                obj.bid.push(n.value);
+            }
+            for (let n of pexp) {
+                obj.exp.push(n.value);
+            }
+            for (let n of pqty) {
+                obj.qty.push(n.value);
+            }
+            for (let n of pmrp) {
+                obj.mrp.push(n.value);
+            }
+            for (let n of prate) {
+                obj.rate.push(n.value);
+            }
+            for (let n of pamt) {
+                obj.amt.push(n.value);
+            }
+            if (obj.vid == "" || document.getElementById("date").value == "") {
+                document.getElementById("e-warn").style.display = 'block';
+                document.getElementById("show-date-warn").style.display = 'block';
+            } else {
+                document.getElementById("e-warn").style.display = 'none';
+                document.getElementById("show-date-warn").style.display = 'none';
+                $.ajax({
+                    "url": "/save-purchase",
+                    "method": "post",
+                    "data": obj
+                }).done((res) => {
+                    if (res) {
+                        document.getElementById("alert").click();
+                        location.href = '/purchase-inv/' + res
+                    }
+                })
+            }
+
+
+
+        }
+
+        function reload() {
+            location.reload();
+        }
+
+        function total(ele) {
+
+
+
+
+
+
+
+
+            var q = document.getElementById('qty-' + ele.id.split("-")[1]).value;
+            var r = document.getElementById('rate-' + ele.id.split("-")[1]).value;
+
+            var tot = Number(q) * Number(r);
+
+            document.getElementById('tot-' + ele.id.split("-")[1]).value = tot;
+            let net_ttl = 0;
+            let pamt = document.getElementsByName("pamt");
+
+            for (let i of pamt) {
+                net_ttl = Number(net_ttl) + Number(i.value);
+            }
+            document.getElementById("net_ttl").value = net_ttl;
+        }
+    </script>
+
+
+    <%-include('footer.ejs')%>

@@ -1,0 +1,361 @@
+<!-- ! Main -->
+<%-include('navbar.ejs')%>
+    <style>
+        i {
+            font-size: 25px;
+        }
+    </style>
+    <div class="container">
+        <h2 class="main-title">Dashboard</h2>
+
+        <div class="row stat-cards">
+            <div class="col-md-6 col-xl-2">
+                <article class="stat-cards-item">
+                    <div class="stat-cards-icon purple">
+                        <!-- <i data-feather="file" aria-hidden="true"></i> -->
+                        <i class="fa-solid fa-person fs-1"></i>
+                    </div>
+                    <div class="stat-cards-info">
+                        <p class="stat-cards-info__num">
+                            <%=ttl.ttlcount%>
+                        </p>
+                        <p class="stat-cards-info__title">Total Customer</p>
+                        <p class="stat-cards-info__progress">
+                            <span class="stat-cards-info__profit danger">
+                     
+                        </p>
+                        </div>
+                        </article>
+                        </div>
+
+            <!-- <div class="col-md-6 col-xl-3" >
+                <a href="/allcustomer">
+
+                <article class="stat-cards-item">
+                    <div class="stat-cards-icon primary">
+                      <i class="fa fa-users"></i>
+                    </div>
+                    <div class="stat-cards-info">
+                        <p class="stat-cards-info__num fs-4"><%=ttl.ttlcount%></p>
+                        <p class="stat-cards-info__title">Total Customers</p>
+                       
+                    </div>
+                </article>
+                </a>
+            </div> -->
+            <!-- <div class="col-md-6 col-xl-3">
+                <a href="/parties">
+                <article class="stat-cards-item">
+                    <div class="stat-cards-icon warning">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div class="stat-cards-info">
+                        <p class="stat-cards-info__num fs-4"><%=ttp.ttlparty%></p>
+                        <p class="stat-cards-info__title">Total Parties</p>
+                       
+                    </div>
+                </article>
+            </a>
+            </div> -->
+
+
+            <!-- <div class="col-md-6 col-xl-3">
+               <a href="/todays-sells">
+                <article class="stat-cards-item">
+                    <div class="stat-cards-icon purple">
+                        <i  class="fa fa-money-bills"></i>
+                    </div>
+                    <div class="stat-cards-info">
+                        <p class="stat-cards-info__num">&#8377; <%-ttl_sell%></p>
+                        <p class="stat-cards-info__title">Todays sell</p>
+                     
+
+                    </div>
+                </article>
+            </a>
+            </div> -->
+
+            <div class="col-md-6 col-xl-2">
+                <article class="stat-cards-item">
+                    <div class="stat-cards-icon purple">
+                        <!-- <i data-feather="file" aria-hidden="true"></i> -->
+						<i class="fa-solid fa-truck-medical fs-1"></i>
+					                    </div>
+                    <div class="stat-cards-info">
+                        <p class="stat-cards-info__num"> <%=ttp.ttlparty%></p>
+                        <p class="stat-cards-info__title">Total Supplier's </p>
+                        <p class="stat-cards-info__progress">
+                            <span class="stat-cards-info__profit danger">
+                     
+                        </p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-6 col-xl-2">
+                <article class="stat-cards-item">
+                    <div class="stat-cards-icon purple">
+                        <!-- <i data-feather="file" aria-hidden="true"></i> -->
+						<i class="fa-solid fa-file-invoice-dollar fs-1"></i>
+                    </div>
+                    <div class="stat-cards-info">
+                        <p class="stat-cards-info__num"><%-ttl_bill.ttl_b%></p>
+                        <p class="stat-cards-info__title">Total Invoice</p>
+                        <p class="stat-cards-info__progress">
+                            <span class="stat-cards-info__profit danger">
+                      
+                        </p>
+                    </div>
+                </article>
+            </div>
+			<div class="col-md-6 col-xl-2">
+                <article class="stat-cards-item">
+                    <div class="stat-cards-icon purple">
+                        <!-- <i data-feather="file" aria-hidden="true"></i> -->
+						<i class="fa-solid fa-briefcase-medical fs-1"></i>
+                    </div>
+                    <div class="stat-cards-info">
+                        <p class="stat-cards-info__num"><%-ttl_med.ttl_m%></p>
+                        <p class="stat-cards-info__title">Total medicine</p>
+                        <p class="stat-cards-info__progress">
+                            <span class="stat-cards-info__profit danger">
+                      
+                        </p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <article class="stat-cards-item border border-primary">
+
+                    <h4 class="mb-3">Today's Report</h4>
+                    <table class="table table-bordered table-striped  fs-5 text-center">
+
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold">Total Sales</td>
+                                <td class="text-success fw-bold">&#8377; <%-ttl_sell%></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Total Purchase</td>
+                                <td class="text-danger fw-bold">&#8377; <%-ttl_exp%></td>
+                            </tr>
+                            <!-- <tr>
+                                <td class="fw-bold">Total Pro</td>
+                                <td class="text-danger fw-bold">&#8377; <%-ttl_pr%></td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+
+                </article>
+            </div>
+			<div class="col-md-6 col-xl-2 mt-2">
+                <a href="/medicine?warn=oos">
+                <article class="stat-cards-item">
+                    <div class="stat-cards-icon purple">
+                        <!-- <i data-feather="file" aria-hidden="true"></i> -->
+						<i class="fa-solid fa-circle-xmark fs-1"></i> 
+					                    </div>
+                    <div class="stat-cards-info">
+                        <p class="stat-cards-info__num my-2"><%-ttl_out.ttlo%></p>
+                        <p class="stat-cards-info__title">Out Of Stock  </p>
+                        <p class="stat-cards-info__progress">
+                            <span class="stat-cards-info__profit danger">
+                      
+                        </p>
+                    </div>
+                </article>
+            </a>
+            </div>
+			<div class="col-md-6 col-xl-2 mt-2">
+                <a href="/medicine?warn=exp">
+                <article class="stat-cards-item">
+                    <div class="stat-cards-icon purple">
+                        <!-- <i data-feather="file" aria-hidden="true"></i> -->
+						<i class="fa-solid fa-trash fs-1"></i>  
+                    </div>
+                    <div class="stat-cards-info">
+                        <p class="stat-cards-info__num my-2"><%-ttlexp.ttle%></p>
+                        <p class="stat-cards-info__title">Expired medicine</p>
+                        <p class="stat-cards-info__progress">
+                            <span class="stat-cards-info__profit danger">
+                      
+                        </p>
+                    </div>
+                </article>
+            </a>
+            </div>
+
+
+
+        </div>
+
+		<hr style="height:3px; border-width:0;  color:red; background-color:red">
+
+		<div class="row">
+            
+		<div class="col-md-6 col-xl-3 mt-2">
+            <a href="/sale-product">
+			<article class="stat-cards-item1 border border-primary d-flex justify-content-center">
+				<div class="stat-cards-icon blk text-center">
+					<!-- <i data-feather="file" aria-hidden="true"></i> -->
+					<i class="fa-solid fa-user-plus fs-2"></i>
+								</div>
+				<div class="stat-cards-info">
+					<h6 class="stat-cards-info__title1 text-center mt-2">Create New Invoice </h6>
+					
+				</div>
+			</article>
+        </a>
+		</div>
+
+
+		<div class="col-md-6 col-xl-3 mt-2">
+            <a href="/addcustomer">	
+                		<article class="stat-cards-item1 border border-primary d-flex justify-content-center">
+				<div class="stat-cards-icon blk text-center">
+					<!-- <i data-feather="file" aria-hidden="true"></i> -->
+					<i class="fa-regular fa-handshake fs-2"></i>
+												</div>
+				<div class="stat-cards-info">
+					<h6 class="stat-cards-info__title1 text-center mt-2">Add New Customer </h6>
+					
+				</div>
+			</article>
+        </a>
+
+		</div>
+		<!-- <div class="col-md-6 col-xl-3 mt-2">
+            
+			<article class="stat-cards-item1 border border-primary d-flex justify-content-center">
+				<div class="stat-cards-icon blk text-center">
+				
+					<i class="fa-solid fa-suitcase fs-2"></i>
+								</div>
+				<div class="stat-cards-info">
+					<h6 class="stat-cards-info__title1 text-center mt-2">Add New Medicine</h6>
+					
+				</div>
+			</article>
+		</div> -->
+
+        <div class="col-md-6 col-xl-3 mt-2">
+            <a href="/addpurchase">
+			<article class="stat-cards-item1 border border-primary d-flex justify-content-center">
+				<div class="stat-cards-icon blk text-center">
+					<!-- <i data-feather="file" aria-hidden="true"></i> -->
+					<i class="fa-solid fa-cart-shopping fs-2"></i>
+								</div>
+				<div class="stat-cards-info">
+					<h6 class="stat-cards-info__title1 text-center mt-2">Add New Purchase
+					</h6>
+					
+				</div>
+			</article>
+            </a>
+		</div>
+
+		<div class="col-md-6 col-xl-3 mt-2">
+            <a href="/add-party">
+			<article class="stat-cards-item1 border border-primary d-flex justify-content-center">
+				<div class="stat-cards-icon blk text-center">
+					<!-- <i data-feather="file" aria-hidden="true"></i> -->
+					<i class="fa-solid fa-users fs-2"></i>
+								</div>
+				<div class="stat-cards-info">
+					<h6 class="stat-cards-info__title1 text-center mt-2"> Add New Party / Supplier</h6>
+					
+				</div>
+			</article>
+        </a>
+		</div>
+		
+		<div class="col-md-6 col-xl-3 mt-2">
+            <a href="/bill-list">
+			<article class="stat-cards-item1 border border-primary d-flex justify-content-center">
+				<div class="stat-cards-icon blk text-center">
+					<!-- <i data-feather="file" aria-hidden="true"></i> -->
+					<i class="fa-solid fa-notes-medical fs-2"></i>
+								</div>
+				<div class="stat-cards-info">
+					<h6 class="stat-cards-info__title1 text-center mt-2">Total Sales Report</h6>
+					
+				</div>
+			</article>
+        </a>
+		</div>
+
+		<div class="col-md-6 col-xl-3 mt-2">
+            <a href="/all-purchases">
+			<article class="stat-cards-item1 border border-primary d-flex justify-content-center">
+				<div class="stat-cards-icon blk text-center">
+					<!-- <i data-feather="file" aria-hidden="true"></i> -->
+					<i class="fa-solid fa-cash-register fs-2"></i>
+								</div>
+				<div class="stat-cards-info">
+					<h6 class="stat-cards-info__title1 text-center mt-2">Total Purchase Report</h6>
+					
+				</div>
+			</article>
+        </a>
+		</div>
+
+		<div class="col-md-6 col-xl-3 mt-2">
+            <a href="/credits">
+			<article class="stat-cards-item1 border border-primary d-flex justify-content-center">
+				<div class="stat-cards-icon blk text-center">
+					<!-- <i data-feather="file" aria-hidden="true"></i> -->
+					<i class="fa-regular fa-credit-card fs-2"></i>
+								</div>
+				<div class="stat-cards-info">
+					<h6 class="stat-cards-info__title1 text-center mt-2">Add New Credit </h6>
+					
+				</div>
+			</article>
+        </a>
+		</div>
+
+	
+	</div>
+
+        <div class="row">
+            <canvas id="myChart" style="width:100%;height:200px"></canvas>
+        </div>
+
+
+		
+
+    </div>
+
+
+    <script>
+        const xValues = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150];
+        const yValues = [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15];
+
+        new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "rgba(0,0,255,1.0)",
+                    borderColor: "rgba(0,0,255,0.1)",
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 6,
+                            max: 16
+                        }
+                    }],
+                }
+            }node
+        });
+    </script>
+	
+    <%-include('footer.ejs')%>

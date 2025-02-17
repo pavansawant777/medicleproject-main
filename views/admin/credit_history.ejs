@@ -1,0 +1,145 @@
+<%-include("navbar.ejs")%>
+
+<div class="container " style="overflow: hidden;">
+
+
+    <div class="row">
+        <div class="col-md-6 my-3">
+            <h4>Customer Name : <span class=""><%-data.c_name%></span></h3>
+        </div>
+        <div class="col-md-6 my-3">
+            <h4>Customer Mobile : <span class=""><%-data.c_mobile%></span> </h3>
+        </div>
+
+        <div class="col-md-6 my-3">
+            <a href="/back">
+                <button class="btn btn-dark" >Back</button>
+            </a>
+    
+            
+                <button class="btn btn-success" data-bs-toggle ="modal" data-bs-target="#addcredit">Credit</button>
+         
+    
+          
+                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#adddebit">Debit</button>
+            
+        </div>
+
+
+        <div class="col-md-6 my-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Total Credit : &#8377; <span class="text-primary"> <%-(c_amount.c_amount == null)?'0':c_amount.c_amount%></span>  </h4>
+                </div>
+
+                <div class="col-md-6">
+                    <h4>Total Debit :  &#8377; <span class="text-danger"><%-(d_amount.d_amount==null)?'0':d_amount.d_amount%></span> </h4>
+                    <h4 class="my-2">Nett Total :  &#8377; <span class="text-success"><%-c_amount.c_amount-d_amount.d_amount%></span> </h4>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <table class="table table-bordered table-hover my-5">
+        <tr>
+            <th>Entries</th>
+            <th>Date</th>
+            <th>Note</th>
+            <th>credit</th>
+            <th>Debit</th>
+        </tr>
+
+        <% for(var i=0; i<allcust.length ; i++){ %>
+            
+           <tr>
+                <td><%-data.c_name%></td>
+                <td><%-allcust[i].date%></td>
+                <td><%-allcust[i].note%></td>
+                <td class="text-success"><%-allcust[i].credit_amount%></td>
+                <td class="text-danger"><%-allcust[i].debit_amount%></td>
+           </tr>
+
+        <%}%>
+    </table>
+</div>
+
+
+<div class="modal fade" id="addcredit" tabindex="-1" aria-labelledby="addcreditLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add new customer</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="post" action="/add_credit" >
+                <input type="hidden" name="credit_id" value="<%-data.credit_id%>" >
+                <label class="mb-2">Add Note <span class="text-danger">*</span> :</label>
+                <input type="text" required name="note" class="form-control border shadow-none mb-3">
+
+                <label class="mb-2">Enter Amount <span class="text-danger">*</span> :</label>
+                <input type="number" required name="credit_amount" class="form-control shadow-none border mb-3">
+
+
+                <input type="hidden" name="current_date" value="" id="date">
+                <input type="hidden" name="debit_amount" value="0">
+              
+             
+                         
+                <button class="btn btn-primary shadow-none float-end mt-4">Save</button>
+            </form>
+
+
+
+        </div>
+        
+      </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="adddebit" tabindex="-1" aria-labelledby="adddebitLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add new customer</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="post" action="/add_debit" >
+                <input type="hidden" name="credit_id" value="<%-data.credit_id%>" >
+                <label class="mb-2">Add Note <span class="text-danger">*</span> :</label>
+                <input type="text" required name="note" class="form-control border shadow-none mb-3">
+
+                <label class="mb-2">Enter Amount <span class="text-danger">*</span> :</label>
+                <input type="number" required name="debit_amount" class="form-control shadow-none border mb-3">
+
+
+                <input type="hidden" name="current_date" value="" id="date1">
+                <input type="hidden" name="credit_amount" value="0">
+              
+             
+                         
+                <button class="btn btn-primary shadow-none float-end mt-4">Save</button>
+            </form>
+
+
+
+        </div>
+        
+      </div>
+    </div>
+</div>
+
+<script>
+    // document.getElementById('date').value = new Date().toISOString().split('T')[0];
+    // document.getElementById('date1').value = new Date().toISOString().split('T')[0];
+</script>
+
+
+
+<%-include("footer.ejs")%>

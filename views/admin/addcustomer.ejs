@@ -1,0 +1,36 @@
+<%- include("navbar.ejs") %>
+
+
+<div class="container p-4">
+    <div class="row justify-content-center align-item-center">
+        <div class="w-100 text-center">
+            <h3>Add Customer</h3>
+        </div>
+        <div class="col-md-5 rounded shadow p-4 mt-5">
+        <form method="post" action="/save-customer" id="myform">
+            <label class="mb-2">Customer Name <span class="text-danger">*</span> :</label>
+            <input type="text" required name="cname" class="form-control mb-3">
+            <label class="mb-2">Customer Email <span class="text-danger">*</span> :</label>
+            <input type="email" required name="cemail" class="form-control mb-3">
+            <label class="mb-2">Customer Contact Number <span class="text-danger">*</span> :</label>
+            <input type="number" required name="ccontact" class="form-control mb-3">
+            <label class="mb-2">Customer Address <span class="text-danger"></span> :</label>
+            <textarea  name="cadd" class="form-control mb-3"></textarea>            
+            <button class="btn btn-success text-white w-100 mt-4" type="button" onclick="sendForm1()" >Save</button>
+        </form>
+
+        </div>
+    </div>
+</div>
+<script>
+    function sendForm1(){
+        let r=confirm('Add new Customer ?');
+        if(r==true){
+        document.getElementById("myform").submit();
+        }
+    }
+</script>
+
+
+
+<%- include("footer.ejs") %>

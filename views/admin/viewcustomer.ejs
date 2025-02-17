@@ -1,0 +1,80 @@
+<%- include("navbar.ejs") %>
+
+<div class="container p-5">
+  <div class="row shadow py-5 px-3 justify-content-center align-item-center">
+    <div class="w-100 mb-5 text-center">
+      <h3>Update Customer</h3>
+    </div>
+
+    <form method="post" action="/update-customer/<%-data.cid%>" id="myform">
+      <div class="row">
+        <div class="col-md-4">
+          <input type="hidden" name="cid" value="<%=data.cid%>" />
+          <label class="mb-2"
+            >Customer Name <span class="text-danger">*</span> :</label
+          >
+          <input
+            type="text"
+            required
+            name="cname"
+            class="form-control mb-3"
+            value="<%=data.cname%>"
+          />
+        </div>
+
+        <div class="col-md-4">
+          <label class="mb-2"
+            >Customer Email <span class="text-danger">*</span> :</label
+          >
+          <input
+            type="email"
+            required
+            name="cemail"
+            class="form-control mb-3"
+            value="<%=data.cemail%>"
+          />
+        </div>
+
+        <div class="col-md-4">
+          <label class="mb-2"
+            >Customer Contact Number <span class="text-danger">*</span> :</label
+          >
+          <input
+            type="number"
+            required
+            name="ccontact"
+            class="form-control mb-3"
+            value="<%=data.ccontact%>"
+          />
+        </div>
+        <div class="col-md-4">
+          <label class="mb-2"
+            >Customer Address <span class="text-danger"></span> :</label
+          >
+          <textarea name="cadd" class="form-control mb-3">
+            <%=data.cadd%></textarea
+          >
+        </div>
+        <div class="col-md-12 text-center">
+          <button
+            class="btn btn-primary px-5 mt-4"
+            type="button"
+            onclick="sendData1()"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+  function sendData1() {
+    let r = confirm("Update Customer ?");
+    if (r == true) {
+      document.getElementById("myform").submit();
+    }
+  }
+</script>
+
+<%- include("footer.ejs") %>

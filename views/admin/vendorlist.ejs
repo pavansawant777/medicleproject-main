@@ -1,0 +1,83 @@
+<%-include('navbar.ejs')%>
+
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css">
+<style>
+    .dt-search-0{
+        border: 1px solid black;
+        outline: 1px solid black;
+    }
+</style>
+<div class="container p-5">
+    <h1 class="text-center mb-5">Parties List</h1>
+    <div class="row shadow py-5 px-3" style="overflow-x: scroll;">
+        <table id="example" class="display nowrap" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Party Name</th>
+                    <th>Email</th>
+                    <th>Number</th>
+                    <th>Total Order</th>
+                    <th>Contract Started</th>
+                    <th>Contract Stauts</th>
+                    <th></th>
+                </tr>
+            </thead>
+          <tbody>
+            <%for(let i of data){%>
+                <tr>
+                    <td><%-i.id%></td>
+                    <td><%-i.name%></td>
+                    <td><%-i.email%></td>
+                    <td><%-i.contact%></td>
+                    <td><%-i.ttl_purchases%></td>
+                    <td><%-i.contract_start%></td>
+                    <td><%-i.contract_status%></td>
+                    <td><a  onclick="deleteData('<%-i.id%>')" class="text-danger"><i class="fa fa-trash"></i></a>
+                        <a href="/show-party/<%-i.id%>" class="text-primary"><i class="fa fa-eye"></i></a>
+                    </td>
+      
+                </tr>
+                
+                <%}%>
+          </tbody>
+            <tfoot>
+          
+            </tfoot>
+        </table>
+    </div>
+</div>
+<script>
+    function deleteData(id){
+        let r =confirm('Want to delete Data ?');
+if(r==true){
+        location.href='/delete-party/'+id
+    }
+
+}
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.jss"></script>
+
+<script type="text/javascript">
+	new DataTable('#example', {
+    layout: {
+        topStart: {
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        }
+    }
+});
+
+</script>
+<%-include('footer.ejs')%>

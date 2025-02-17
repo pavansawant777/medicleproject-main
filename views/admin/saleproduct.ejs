@@ -1,0 +1,481 @@
+<%-include('navbar.ejs')%>
+<style>
+input{
+    box-shadow: 0px 0px 1px 0px rgb(235, 234, 234);
+}
+#c-warn{
+    display: none;
+}
+.warn{
+    display: none;
+}
+</style>
+<div class="container p-5">
+    <div class="row border p-3">
+   <h4 class="text-primary mb-4"><i class="fa fa-user"></i>&nbsp; Coustmer details</h4>
+   <div class="col-md-4 mb-2">
+    
+   
+    <select id="cust" onchange="setCustDet()" class="form-select" >
+        <option selected value="" disabled>Select Customer</option>
+        <%for(let i of c){%>
+            <option value="<%-i.cid%>"><%-i.cname%></option>
+            
+        <%}%>
+    </select>
+    <span id="c-warn" class="text-danger" style="font-size: 13px;"><i class="fa fa-warning"></i>&nbsp;Please select the customer</span>
+    
+   </div>
+   <div class="col-md-4 mb-2">
+    <input type="text" class="form-control" id="cnum" placeholder="Customer Contact" readonly>
+   </div>
+   <div class="col-md-4 mb-2">
+    <input type="text" class="form-control" id="cem" placeholder="Customer Email" readonly>
+   </div>
+   <div class="col-md-12">
+     <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    New Customer +
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add new customer</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="post" action="/save-customer" id="myform">
+                <label class="mb-2">Customer Name <span class="text-danger">*</span> :</label>
+                <input type="text" required name="cname" class="form-control mb-3">
+                <label class="mb-2">Customer Contact Number <span class="text-danger">*</span> :</label>
+                <input type="number" required name="ccontact" class="form-control mb-3">
+                <label class="mb-2">Customer Email <span class="text-danger"></span> :</label>
+                <input type="email"  name="cemail" class="form-control mb-3">
+             
+                <label class="mb-2">Customer Address <span class="text-danger"></span> :</label>
+                <textarea  name="cadd" class="form-control mb-3"></textarea>            
+                <button class="btn btn-primary w-100 mt-4" type="button" onclick="sendForm1()" >Save</button>
+            </form>
+
+
+
+        </div>
+        
+      </div>
+    </div>
+  </div>
+   </div>
+    </div>
+<div class="row p-0 mt-4" style="overflow-x: scroll;">
+<div class="col-md-12 border p-2">
+    <h4 class="text-primary m-3"><i class="fa fa-list"></i>&nbsp;Bill Details</h4>
+<table class="table table-striped table-bordered table-sucess">
+    <tr>
+        <th>Medicine Name</th>
+        <th>Batch Id</th>
+        <th>Unit Price</th>
+        <th>Quantity</th>
+        <th>MRP</th>
+        <th>Total</th>
+        <th><button class="btn btn-primary" onclick="addRow('tab')"><i class="fa-solid fa-tablets"></i></button>
+            <button class="btn btn-primary" onclick="addRow('liq')"><i class="fa-solid fa-box"></i></button>
+        </th>
+    </tr>
+    <tbody id="tbody">
+       
+    </tbody>
+    <tr>
+        <td colspan="7"><h5>Payment Details</h5></td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label class="mb-2">Total Amount (&#8377;) :</label>
+            <input type="number"  id="ttl" class="form-control" readonly>
+        </td>
+        <td colspan="2">
+            <label class="mb-2">Dicount (%) :</label>
+            <input type="number" onkeyup="setNetTtl()" id="disc" class="form-control"  value="0">
+        </td>
+    
+        <td colspan="3">
+            <label class="mb-2">Net Total (&#8377;) :</label>
+            <input type="number" readonly id="net_ttl" class="form-control" >
+        </td>
+        
+    </tr>
+    <tr>
+        <td colspan="2">
+            <label class="mb-2">Payment Method :</label>
+            <select type="number" id="p-mtd" class="form-control" >
+              <option disabled value="" selected>Select payment method</option>   
+            <option>Online</option>
+            <option>Cash</option>
+            <option>Card</option>
+            </select>
+        </td>
+        <td colspan="2">
+            <label class="mb-2">Payment Status:</label>
+            <select type="number"  id="p-sts" class="form-control" >
+                <option disabled value="" selected>Select payment status</option>   
+              <option>Paid</option>
+              <option>Pending</option>
+          
+              </select>
+        </td>
+        <td colspan="2">
+            <label class="mb-2">Paid Money :</label>
+            <input type="number" onkeyup="setPending()"  id="p-mny" class="form-control" >
+        </td>
+        <td colspan="1">
+            <label class="mb-2">Return Money :</label>
+            <input type="number" disabled id="r-mny" class="form-control" >
+        </td>
+    </tr>
+    <tr>
+        <td colspan="7">
+            <button class="btn btn-success" onclick="sendToBackend()" id="p-btn" disabled>Processed</button>
+        </td>
+    </tr>
+</table>
+
+
+
+</div>
+
+
+
+</div>
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    let j=0;
+    let custId=1;
+function sendData(){
+    let obj={
+        "product":[],
+        "bid":[],
+        "qty":[],
+        "mrp":[],
+        "total":[],
+        "up":[],
+        "ttl_amt":document.getElementById("ttl").value,
+        "discount":document.getElementById("disc").value,
+        "net_ttl":document.getElementById("net_ttl").value,
+        "pmtd":document.getElementById("p-mtd").value,
+        "psts":document.getElementById("p-sts").value,
+        "pmny":document.getElementById("p-mny").value,
+        "rmny":document.getElementById("r-mny").value,
+        "cid":"",
+        "isPack":[],
+        "gst":0
+    }
+
+    for(let i=0;i<document.getElementsByClassName("medi").length;i++){
+              
+        obj.product.push(document.getElementsByClassName("medi")[i].value);
+        if(document.getElementsByClassName("medi")[i].value==""){
+            document.getElementById("emw-"+i).style.display='block';
+        return false;
+        }
+    }
+    for(let i=0;i<document.getElementsByClassName("medi").length;i++){
+        obj.bid.push(document.getElementsByClassName("bid")[i].value);
+    }
+    for(let i=0;i<document.getElementsByClassName("medi").length;i++){
+        
+        if(document.getElementsByClassName("uph")[i]){
+            obj.up.push(document.getElementsByClassName("up")[i].value+" per/Tab");
+          obj.isPack.push(false);
+        }
+        else{
+            obj.up.push(document.getElementsByClassName("mrp")[i].value+" per/Pack");
+            obj.isPack.push(true);
+        }
+        
+    }
+    for(let i=0;i<document.getElementsByClassName("medi").length;i++){
+       let mqty=document.getElementsByClassName("mqty")[i].value;
+        if(document.getElementsByClassName("mqty")[i].value==""){
+            mqty='1';
+        }
+        obj.qty.push(mqty);
+    }
+    for(let i=0;i<document.getElementsByClassName("medi").length;i++){
+        obj.mrp.push(document.getElementsByClassName("mrp")[i].value);
+    }
+    for(let i=0;i<document.getElementsByClassName("medi").length;i++){
+        obj.total.push(document.getElementsByClassName("ttl_amt")[i].value);
+    }
+   if(custId==0){
+   document.getElementById("c-warn").style.display='block';
+   return false;
+   }
+   else if(custId!=0){
+    obj.cid=custId;
+    return obj;
+   }
+
+   return false;
+   
+  
+
+}
+function sendToBackend(){
+    if(sendData()==false){
+     console.log('err')
+    }
+    else{
+    let r=confirm('Procceed to ahead?')
+       if(r==true){
+        $.ajax({
+            "url":"/save-bill",
+            "method":"post",
+            "data":sendData()
+        }).done((resp)=>{
+           location.href="/invoice/"+resp;
+        })
+    }
+    }
+}
+
+function addRow(ele){
+    if(ele=="tab"){
+    $("#tbody").append(`<tr>
+            <td ><select class="form-control medi " onchange="selectMed(this)"  name="medi-${j}" >
+           <option value="" disabled selected>Select Medicine</option>
+            <%for(let i of med){%>
+                
+                <option value="<%-i.id%>"><%-i.pname%></option>
+                
+                <%}%>
+            </select>
+            <span style="font-size:13px" class="text-danger warn" id="emw-${j}"><i class="fa fa-warning"></i>&nbsp;This field is empty !</span>
+                           <span style="font-size:13px" class="text-warning warn" id="ots-${j}"><i class="fa fa-warning"></i>&nbsp;This item is out of stock!!</span>
+
+            </td>
+
+            
+            <td>
+                <input type="text"  class="form-control bid"  readonly name="bid-${j}" >
+            </td>
+             <td>
+                <input type="text"  class="form-control up"  readonly name="up-${j}" >
+                 <input type="hidden"  class="form-control uph"  readonly name="uph-${j}" >
+            </td>
+
+
+            <td>
+                <input type="number"   class="form-control mqty" placeholder="Enter Quantity" min="1"   onkeyup="changeQty(this)"  name="mqty-${j}" >
+            </td>
+
+
+            <td>
+                <input type="text"  class="form-control mrp" readonly name="mrp-${j}" >
+            </td>
+            
+            <td>
+                <input type="text" class="form-control  ttl_amt"  readonly name="ttl-${j}" >
+            </td>
+            <td>
+                <button class="btn btn-danger" onclick="delRow()"><i class="fa fa-trash"></i></button>
+            </td>
+
+        </tr>`);
+    }
+    else{
+        $("#tbody").append(`<tr>
+            <td ><select class="form-control medi " onchange="selectMed(this)"  name="medi-${j}" >
+           <option value="" disabled selected>Select Medicine</option>
+            <%for(let i of med){%>
+                
+                <option value="<%-i.id%>"><%-i.pname%></option>
+                
+                <%}%>
+
+
+            </select>
+            <span style="font-size:13px" class="text-danger warn" id="emw-${j}"><i class="fa fa-warning"></i>&nbsp;This field is empty !</span>
+               <span style="font-size:13px" class="text-warning warn" id="ots-${j}"><i class="fa fa-warning"></i>&nbsp; This item is out of stock!!</span>
+            </td>
+
+            
+            <td>
+                <input type="text"  class="form-control bid"  readonly name="bid-${j}" >
+            </td>
+             <td>
+                <input type="text"  class="form-control "  readonly  value="-">
+
+            </td>
+
+
+            <td>
+                <input type="number"   class="form-control mqty" placeholder="Enter Quantity" min="1"   onkeyup="changeQty(this)"  name="mqty-${j}" >
+            </td>
+
+
+            <td>
+                <input type="text"  class="form-control mrp" readonly name="mrp-${j}" >
+            </td>
+            
+            <td>
+              <input type="text" class="form-control  ttl_amt"  readonly name="ttl-${j}" >
+            </td>
+        
+       
+    
+    
+              <td>
+                <button class="btn btn-danger" onclick="delRow()"><i class="fa fa-trash"></i></button>
+                
+                </td>
+            
+        </tr>`);
+    }
+
+        j++;
+if(j>0){
+document.getElementById('p-btn').disabled=false;
+}
+
+}
+function delRow(){
+    let r=event.target.closest('tr');
+ 
+    r.remove();
+    calTtlAmt();
+    j--;
+    if(j==0){
+document.getElementById('p-btn').disabled=true;
+}
+}
+function changeQty(ele){
+    let d=ele.value;
+    if(ele.value==0){
+       d=1;
+    }
+  let val=  document.getElementsByName('medi-'+ele.name.split("-")[1])[0].value;
+   let ar=<%- JSON.stringify(med) %>;
+ 
+   if(document.getElementsByName("uph-"+ele.name.split("-")[1]).length!=0){
+   
+    for(let i of ar){
+        if(i.id==val){
+          
+          let l=  document.getElementsByName("uph-"+ele.name.split("-")[1])[0].value=(d/i.packing.split(" ")[0]);
+          document.getElementsByName("up-"+ele.name.split("-")[1])[0].value=(document.getElementsByName("mrp-"+ele.name.split("-")[1])[0].value/i.packing.split(" ")[0])
+            document.getElementsByName("ttl-"+ele.name.split("-")[1])[0].value= document.getElementsByName("mrp-"+ele.name.split("-")[1])[0].value*l;
+
+        }
+    }
+}
+else{
+
+    document.getElementsByName("ttl-"+ele.name.split("-")[1])[0].value= document.getElementsByName("mrp-"+ele.name.split("-")[1])[0].value*d;
+}
+
+ var ttamt = parseFloat(document.getElementsByClassName('ttl_amt').value);
+document.getElementsByClassName('ttl_amt').value = ttamt.toFixed(2);
+    
+    calTtlAmt();
+}
+function selectMed(ele){
+    let ar=<%- JSON.stringify(med) %>;
+
+    for(let i of ar){
+        if(i.id==ele.value){
+            console.log((ele.name.split("-")[1])[0].value)
+            document.getElementsByName("bid-"+ele.name.split("-")[1])[0].value=i.batchid;
+            document.getElementsByName("mrp-"+ele.name.split("-")[1])[0].value=i.mrp;
+            document.getElementsByName("ttl-"+ele.name.split("-")[1])[0].value=i.mrp;
+            if(document.getElementsByClassName("up-"+ele.name.split("-")[1])[0]){
+            document.getElementsByName("up-"+ele.name.split("-")[1])[0].value=0;
+            document.getElementsByName("uph-"+ele.name.split("-")[1])[0].value=0;x    
+        }
+          
+            document.getElementsByName("mqty-"+ele.name.split("-")[1])[0].value=0;
+           
+            if(i.qty<10){
+                document.getElementById('ots-'+ele.name.split("-")[1]).style.display='block';
+            }
+            else{
+                document.getElementById('ots-'+ele.name.split("-")[1]).style.display='none';
+
+            }
+        }
+
+        
+        
+    }
+calTtlAmt();
+
+
+}
+function calTtlAmt(){
+    console.log('helo');
+    let amt=0;
+    for(let i of document.getElementsByClassName("ttl_amt")){
+      amt=Number(amt)+Number(i.value);
+    }
+    document.getElementById("ttl").value=amt;
+    setNetTtl();
+}
+
+
+
+
+      function sendForm1(){
+        let r=confirm('Add Customer ?');
+        if(r==true){
+            document.getElementById("myform").submit();
+        }
+      }
+
+
+
+      function setCustDet(){
+
+        let ar=  <%- JSON.stringify(c) %>;
+        let id=document.getElementById("cust").value;
+
+        for(let i of ar){
+       if(i.cid==id){
+        $("#cnum").val(i.ccontact);
+        $("#cem").val(i.cemail);
+        custId=i.cid;
+       }
+        }
+      }
+   
+      
+
+
+
+
+     function setNetTtl(){
+         if(document.getElementById("disc").value==0){
+             document.getElementById("net_ttl").value=document.getElementById("ttl").value;
+             document.getElementById('net_ttl').value=Number(document.getElementById('ttl').value)+Number(((document.getElementById("ttl").value)/100)*(document.getElementById("gst").value)); 
+
+         }
+         else{
+         document.getElementById("net_ttl").value= document.getElementById("ttl").value-((document.getElementById("ttl").value)*(document.getElementById("disc").value))/100;
+         document.getElementById('net_ttl').value=document.getElementById('ttl').value+((document.getElementById("ttl").value)/100)*(document.getElementById("gst").value); 
+     }
+     }
+    function setPendingStatus(){
+        if($("#p-sts").val()=='Pending'){
+            document.getElementById("p-mny").disabled=false;
+        }
+        else{
+            document.getElementById("p-mny").disabled=true;
+        }
+    }
+   function setPending(){
+    $("#r-mny").val($("#p-mny").val()-$("#net_ttl").val())
+   }
+</script>
+<%-include('footer.ejs')%>

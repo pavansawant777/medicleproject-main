@@ -1,0 +1,36 @@
+<%-include("navbar.ejs")%>
+
+<div class="container justify-content-center align-item-center">
+    
+    <div class="row">
+        <div class="col-md-4"></div>
+
+
+        <div class="col-md-4">
+            <div class="card border-0 px-3 ">
+                <h2 class="text-center my-3">Edit Customer</h2>
+
+                <form method="post" action="/credit_edit">
+                    <input type="hidden" name="credit_id" value="<%-data.credit_id%>">
+                    <label class="mb-2">Customer Name <span class="text-danger">*</span> :</label>
+                    <input type="text" required name="c_name" class="form-control border shadow-none mb-3" value="<%-data.c_name%>">
+                
+                    <label class="mb-2">Customer Contact Number <span class="text-danger">*</span> :</label>
+                    <input type="number" required name="c_mobile" class="form-control shadow-none border mb-3" value="<%-data.c_mobile%>">
+                  
+                 
+                    <label class="mb-2">Customer Address <span class="text-danger"></span> :</label>
+                    <textarea  name="c_add" class="form-control shadow-none mb-3"><%-data.c_add%></textarea>            
+                    <button class="btn btn-primary shadow-none float-end mt-4">Save</button>
+                </form>
+        
+            </div>
+        </div>
+        
+        
+        <div class="col-md-4"></div>
+    </div>
+</div>
+
+
+<%-include("footer.ejs")%>
